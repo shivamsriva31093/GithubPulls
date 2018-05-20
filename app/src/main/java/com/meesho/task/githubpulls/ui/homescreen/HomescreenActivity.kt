@@ -1,14 +1,18 @@
-package com.meesho.task.githubpulls
+package com.meesho.task.githubpulls.ui.homescreen
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.meesho.task.githubpulls.R
+import com.meesho.task.githubpulls.utils.ActivityUtils
 
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class HomescreenActivity : AppCompatActivity() {
+
+    private lateinit var presenter: HomeScreenContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,6 +23,14 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
+
+        val fragmentManager = supportFragmentManager
+        var fragment:HomeScreenFragment? = fragmentManager.findFragmentByTag(HomeScreenFragment.TAG) as HomeScreenFragment
+        if(fragment == null) {
+            fragment = HomeScreenFragment.newInstance(bundle = null)
+        }
+        ActivityUtils.replaceFragmentFromActivity(fragmentManager, fragment, R.id.container)
+        presenter = HomeScreenPresenter(fragment)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
