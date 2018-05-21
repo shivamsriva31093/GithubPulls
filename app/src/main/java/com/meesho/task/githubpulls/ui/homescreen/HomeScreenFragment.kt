@@ -8,11 +8,28 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.meesho.task.githubpulls.R
+import com.meesho.task.githubpulls.data.models.api.PullRequests
+import com.meesho.task.githubpulls.utils.LogUtils.LOGD
+import com.meesho.task.githubpulls.utils.LogUtils.LOGE
 
 
 @Suppress("JAVA_CLASS_ON_COMPANION")
 class HomeScreenFragment : Fragment(), HomeScreenContract.View {
-    lateinit var homeScreenPresenter: HomeScreenContract.Presenter
+    override fun showLoadingIndicator(status: Boolean) {
+
+    }
+
+    override fun showPullRequestsList(requestsList: MutableList<PullRequests>) {
+        LOGD(TAG, requestsList.size.toString())
+    }
+
+    override fun showErrorMessage(msg: Int) {
+        LOGE(TAG, getString(msg))
+    }
+
+    private var homeScreenPresenter: HomeScreenContract.Presenter? = null
+    private var ownerName:String = "googlesamples"
+    private var repo:String = "android-architecture"
 
     override fun setPresenter(presenter: HomeScreenContract.Presenter) {
         this.homeScreenPresenter = presenter
@@ -25,12 +42,15 @@ class HomeScreenFragment : Fragment(), HomeScreenContract.View {
         return rootView
     }
 
-
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        homeScreenPresenter?.getPullRequests(owner = ownerName, repo = repo)
+    }
 
     companion object {
-        val TAG:String = HomeScreenFragment::class.java.simpleName
+        val TAG: String = HomeScreenFragment::class.java.simpleName
 
-        fun newInstance(bundle: Bundle?) : HomeScreenFragment {
+        fun newInstance(bundle: Bundle?): HomeScreenFragment {
             val fragment = HomeScreenFragment()
             fragment.arguments = bundle
             return fragment

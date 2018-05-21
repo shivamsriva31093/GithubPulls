@@ -25,11 +25,11 @@ class HomescreenActivity : AppCompatActivity() {
         }
 
         val fragmentManager = supportFragmentManager
-        var fragment:HomeScreenFragment? = fragmentManager.findFragmentByTag(HomeScreenFragment.TAG) as HomeScreenFragment
+        var fragment:HomeScreenFragment? = fragmentManager.findFragmentByTag(HomeScreenFragment.TAG) as HomeScreenFragment?
         if(fragment == null) {
             fragment = HomeScreenFragment.newInstance(bundle = null)
         }
-        ActivityUtils.replaceFragmentFromActivity(fragmentManager, fragment, R.id.container)
+        ActivityUtils.addFragmentToActivity(fragmentManager, fragment, R.id.container, HomeScreenFragment.TAG)
         presenter = HomeScreenPresenter(fragment)
     }
 

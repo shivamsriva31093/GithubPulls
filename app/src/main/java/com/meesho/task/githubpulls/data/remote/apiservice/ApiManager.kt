@@ -8,18 +8,30 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 open class ApiManager {
+
     companion object {
         val TAG = ApiManager::class.java.simpleName
-        private lateinit var retrofit: Retrofit
-        private lateinit var okHttpClient: OkHttpClient
+
+        @JvmStatic
+        private var retrofit: Retrofit? = null
+
+        @JvmStatic private var okHttpClient: OkHttpClient? = null
     }
 
-    protected fun getOkHttpClient(): OkHttpClient {
-        return okHttpClient
+    private fun getInstance():Retrofit {
+        if(retrofit == null) {
+            retrofit = retrofitBuilder().build()
+        }
+        return retrofit!!
     }
 
-    protected fun setOkHttpClient(client: OkHttpClient) {
-        okHttpClient = client
+    @Synchronized
+    private fun okHttpClient(): OkHttpClient {
+        if (okHttpClient == null) {
+            val builder = OkHttpClient.Builder()
+            okHttpClient = builder.build()
+        }
+        return okHttpClient!!
     }
 
     private fun retrofitBuilder(): Retrofit.Builder {
@@ -30,30 +42,14 @@ open class ApiManager {
         val clientBuilder = okHttpClient().newBuilder()
         configOkHttpClient(clientBuilder)
         return builder.client(clientBuilder.build())
+    }
+
+    open fun configOkHttpClient(builder: OkHttpClient.Builder) {
 
     }
 
-    @Synchronized
-    protected fun okHttpClient(): OkHttpClient {
-        if (okHttpClient == null) {
-            val builder = OkHttpClient.Builder()
-            okHttpClient = builder.build()
-        }
-        return okHttpClient
+    fun getGithubService(): ApiService? {
+        return getInstance().create(ApiService::class.java)
     }
 
-    protected fun configOkHttpClient(builder: OkHttpClient.Builder) {
-
-    }
-
-    private fun getRetrofit(): Retrofit {
-        if (retrofit == null) {
-            retrofit = retrofitBuilder().build()
-        }
-        return retrofit
-    }
-
-    fun getGithubService(): ApiService {
-        return getRetrofit().create(ApiService::class.java)
-    }
 }
