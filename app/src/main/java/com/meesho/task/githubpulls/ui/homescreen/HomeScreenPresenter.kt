@@ -37,12 +37,12 @@ class HomeScreenPresenter : HomeScreenContract.Presenter {
 
     override fun getPullRequests(owner: String, repo: String) {
         val apiService = ApiManager().getGithubService()
+        val pullRequests = apiService.getPullRequests(repo, owner)
 
-        val pullRequests = apiService?.getPullRequests(repo, owner)
-
-        pullRequests?.observeOn(AndroidSchedulers.mainThread())
-                ?.subscribeOn(Schedulers.io())
-                ?.subscribe({
+        pullRequests
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({
                     view.showLoadingIndicator(false)
                     view.showPullRequestsList(it)
                 }, {

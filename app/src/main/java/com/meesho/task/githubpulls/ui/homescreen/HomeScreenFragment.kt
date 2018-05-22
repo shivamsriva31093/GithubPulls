@@ -2,29 +2,47 @@ package com.meesho.task.githubpulls.ui.homescreen
 
 
 import android.os.Bundle
+import android.support.design.widget.CoordinatorLayout
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import butterknife.BindView
+import butterknife.ButterKnife
 
 import com.meesho.task.githubpulls.R
 import com.meesho.task.githubpulls.data.models.api.PullRequests
 import com.meesho.task.githubpulls.utils.LogUtils.LOGD
 import com.meesho.task.githubpulls.utils.LogUtils.LOGE
+import com.wang.avi.AVLoadingIndicatorView
 
 
 @Suppress("JAVA_CLASS_ON_COMPANION")
 class HomeScreenFragment : Fragment(), HomeScreenContract.View {
-    override fun showLoadingIndicator(status: Boolean) {
 
+    @BindView(R.id.recView)lateinit var recView: RecyclerView
+
+    private var progressBar:AVLoadingIndicatorView? = null
+
+    override fun showLoadingIndicator(status: Boolean) {
+        if(status) {
+            progressBar?.visibility = View.VISIBLE
+        } else {
+            progressBar?.visibility = View.GONE
+        }
     }
 
     override fun showPullRequestsList(requestsList: MutableList<PullRequests>) {
         LOGD(TAG, requestsList.size.toString())
+        adapter.updateData(requestsList)
     }
 
     override fun showErrorMessage(msg: Int) {
         LOGE(TAG, getString(msg))
+        Snackbar.make(parentLayout,msg, Snackbar.LENGTH_INDEFINITE).show()
     }
 
     private var homeScreenPresenter: HomeScreenContract.Presenter? = null
@@ -39,12 +57,30 @@ class HomeScreenFragment : Fragment(), HomeScreenContract.View {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_home_screen, container, false)
+        ButterKnife.bind(this, rootView)
+        setUpRecView()
         return rootView
     }
 
+    private lateinit var adapter: RecViewAdapter
+
+    private fun setUpRecView() {
+        val layoutManager:LinearLayoutManager = LinearLayoutManager(activity)
+
+        adapter = RecViewAdapter(mutableListOf())
+
+        recView.layoutManager = layoutManager
+        recView.adapter = adapter
+
+    }
+
+    private lateinit var parentLayout: CoordinatorLayout
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        homeScreenPresenter?.getPullRequests(owner = ownerName, repo = repo)
+//        homeScreenPresenter?.getPullRequests(owner = ownerName, repo = repo)
+        parentLayout = activity?.findViewById(R.id.parent) as CoordinatorLayout
+        progressBar = activity?.findViewById(R.id.progressBar) as AVLoadingIndicatorView
     }
 
     companion object {
@@ -56,5 +92,4 @@ class HomeScreenFragment : Fragment(), HomeScreenContract.View {
             return fragment
         }
     }
-
 }

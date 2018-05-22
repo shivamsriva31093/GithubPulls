@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="0dp">
+
+    <FrameLayout
+        android:id="@+id/search_bar_left_action_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:padding="@dimen/button_padding"
+        app:layout_constraintBottom_toBottomOf="@+id/frameLayout3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/frameLayout3">
+
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="@dimen/button_icon_size"
+            android:layout_height="@dimen/button_icon_size"
+            android:background="@drawable/ripple_effect_button"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="@dimen/button_padding"
+            android:scaleType="center"
+            android:src="@drawable/ic_arrow_back_black_24dp"
+            android:tint="@color/body_text_1"
+            android:visibility="visible" />
+
+
+    </FrameLayout>
+
+
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/progressBar"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_margin="7dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:indicatorColor="@color/colorPrimary"
+        app:indicatorName="BallPulseIndicator"
+        app:layout_constraintBottom_toBottomOf="@+id/frameLayout3"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/frameLayout3"
+        app:layout_constraintVertical_bias="0.481" />
+
+    <FrameLayout
+        android:id="@+id/frameLayout3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="false"
+        android:layout_marginBottom="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/search_bar_left_action_container"
+        app:layout_constraintRight_toLeftOf="@+id/progressBar"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/searchInputTextLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical|start"
+            android:gravity="start|center_vertical"
+            android:padding="10dp"
+            app:hintAnimationEnabled="false"
+            app:hintEnabled="false"
+            app:hintTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle">
+
+            <com.meesho.task.githubpulls.utils.widgets.ClearableEditText
+
+                android:id="@+id/searchInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|start"
+                android:layout_weight="0.5"
+                android:alpha="1"
+                android:background="@color/transparent"
+                android:ellipsize="end"
+                android:ems="10"
+                android:fontFamily="sans-serif"
+                android:foregroundGravity="center_vertical|center_horizontal"
+                android:gravity="start"
+                android:hint="@string/search_hint"
+                android:imeOptions="actionSearch"
+                android:inputType="textNoSuggestions"
+                android:longClickable="true"
+                android:maxLines="1"
+                android:minHeight="@dimen/button_size"
+                android:padding="15dp"
+                android:selectAllOnFocus="true"
+                android:textAlignment="viewStart"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/black"
+                android:textColorHint="@color/hintGrey"
+                android:textCursorDrawable="@drawable/appsearch_cursor_drawable"
+                android:textSize="15sp"
+                android:typeface="sans" />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+    </FrameLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/darker_gray"
+    app:cardCornerRadius="0dp">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/item_image"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:padding="16dp"
+            android:scaleType="centerCrop"
+            android:src="@android:color/holo_red_dark"
+            app:civ_border_color="@android:color/darker_gray"
+            app:civ_border_width="0.25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/title"
+            tools:layout_conversion_absoluteHeight="0dp"
+            tools:layout_conversion_absoluteWidth="0dp" />
+
+        <com.meesho.task.githubpulls.utils.widgets.GeneralTextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            style="@style/TextHeader"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center|start"
+            android:padding="8dp"
+            android:textAlignment="gravity"
+            android:textColor="@color/body_text_1"
+            android:textSize="@dimen/default_text_size"
+            app:fontName="@string/font_opensans"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/item_image"
+            app:layout_constraintTop_toTopOf="parent"
+            app:textStyle="semiBold"
+            tools:layout_conversion_absoluteHeight="0dp"
+            tools:layout_conversion_absoluteWidth="0dp"
+            tools:text="Vertical scroller in toolbar above file menu in the android phone" />
+
+        <com.meesho.task.githubpulls.utils.widgets.GeneralTextView
+            android:id="@+id/details"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="16dp"
+            android:gravity="start|center"
+            android:padding="8dp"
+            android:text="Click to view details"
+            android:textAlignment="gravity"
+            android:textColor="@color/body_text_2"
+            android:textSize="13sp"
+            android:typeface="normal"
+            app:fontName="@string/font_roboto"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            app:textStyle="light"
+            tools:layout_conversion_absoluteHeight="0dp"
+            tools:layout_conversion_absoluteWidth="0dp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/body_text_2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.CardView>

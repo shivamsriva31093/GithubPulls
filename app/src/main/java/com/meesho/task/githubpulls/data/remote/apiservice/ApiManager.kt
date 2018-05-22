@@ -48,7 +48,7 @@ open class ApiManager {
 
     }
 
-    fun getGithubService(): ApiService? {
+    fun getGithubService(): ApiService {
         return getInstance().create(ApiService::class.java)
     }
 
