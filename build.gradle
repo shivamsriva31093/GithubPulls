@@ -32,4 +32,5 @@ ext {
     rxandroid_v = '2.0.2'
     retrofit_v = '2.4.0'
     butterknife_v = '8.8.1'
+    glide_v = '4.7.1'
 }
