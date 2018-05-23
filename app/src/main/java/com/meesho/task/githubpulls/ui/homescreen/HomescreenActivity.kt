@@ -16,6 +16,8 @@ import kotlinx.android.synthetic.main.app_searchbar.*
 import android.widget.EditText
 import android.view.MotionEvent
 import android.text.TextUtils
+import com.meesho.task.githubpulls.utils.SnackbarUtils
+import kotlinx.android.synthetic.main.content_main.*
 
 
 class HomescreenActivity : AppCompatActivity() {
@@ -31,18 +33,13 @@ class HomescreenActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setUpSearchBox()
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
-
         val fragmentManager = supportFragmentManager
         var fragment:HomeScreenFragment? = fragmentManager.findFragmentByTag(HomeScreenFragment.TAG) as HomeScreenFragment?
         if(fragment == null) {
             fragment = HomeScreenFragment.newInstance(bundle = null)
         }
         ActivityUtils.addFragmentToActivity(fragmentManager, fragment, R.id.container, HomeScreenFragment.TAG)
-        presenter = HomeScreenPresenter(fragment)
+        presenter = HomeScreenPresenter(fragment, applicationContext)
     }
 
     private fun setUpSearchBox() {
@@ -61,16 +58,28 @@ class HomescreenActivity : AppCompatActivity() {
             }
             false
         }
-        backButton.setOnClickListener { finish() }
+        backButton.setOnClickListener { /*finish()*/
+            ActivityUtils.removeFragmentFromActivity(supportFragmentManager, HomeScreenFragment.TAG)
+//            startActivity(intent)
+            val fragment = HomeScreenFragment.newInstance(null)
+            ActivityUtils.replaceFragmentFromActivity(supportFragmentManager, fragment, R.id.container)
+            presenter = HomeScreenPresenter(fragment, applicationContext)
+        }
     }
 
     private fun attemptToSearch(query: String) {
-        if (TextUtils.isEmpty(query))
+        if (TextUtils.isEmpty(query)) {
+            SnackbarUtils.showSnack(coord_parent, R.string.input_a_query)
             return
+        }
         val searchQuery = query.split(":")
-        progressBar.visibility = View.VISIBLE
-        presenter.getPullRequests(owner = searchQuery[0], repo = searchQuery[1])
-        setInputMethodVisible(false)
+        if(searchQuery.size == 2) {
+            progressBar.visibility = View.VISIBLE
+            presenter.getPullRequests(owner = searchQuery[0], repo = searchQuery[1])
+            setInputMethodVisible(false)
+        } else {
+            SnackbarUtils.showSnack(coord_parent, R.string.not_in_required_format)
+        }
     }
 
     private val showInputMethodRunnable = {

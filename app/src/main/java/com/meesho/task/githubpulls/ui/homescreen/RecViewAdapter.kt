@@ -33,9 +33,10 @@ class RecViewAdapter(val data: MutableList<PullRequests>) : RecyclerView.Adapter
         ).trim()
 
         Glide.with(holder.imageView.context)
-                .load(R.drawable.git_pull_request_logo)
-                .apply(RequestOptions().override(32, 32))
+                .load(pullRequest.user.avatarUrl)
                 .into(holder.imageView)
+
+        holder.pullId.text = """#${pullRequest.number}"""
 
     }
 
@@ -68,6 +69,8 @@ class RecViewAdapter(val data: MutableList<PullRequests>) : RecyclerView.Adapter
         lateinit var title: GeneralTextView
         @BindView(R.id.details)
         lateinit var details: GeneralTextView
+        @BindView(R.id.id_tv)
+        lateinit var pullId: GeneralTextView
 
         init {
             ButterKnife.bind(this, itemView)

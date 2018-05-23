@@ -2,6 +2,7 @@ package com.meesho.task.githubpulls.ui.homescreen
 
 
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
@@ -17,6 +18,7 @@ import com.meesho.task.githubpulls.R
 import com.meesho.task.githubpulls.data.models.api.PullRequests
 import com.meesho.task.githubpulls.utils.LogUtils.LOGD
 import com.meesho.task.githubpulls.utils.LogUtils.LOGE
+import com.meesho.task.githubpulls.utils.SnackbarUtils
 import com.wang.avi.AVLoadingIndicatorView
 
 
@@ -26,6 +28,7 @@ class HomeScreenFragment : Fragment(), HomeScreenContract.View {
     @BindView(R.id.recView)lateinit var recView: RecyclerView
 
     private var progressBar:AVLoadingIndicatorView? = null
+    private var placeholder:ConstraintLayout? = null
 
     override fun showLoadingIndicator(status: Boolean) {
         if(status) {
@@ -37,7 +40,11 @@ class HomeScreenFragment : Fragment(), HomeScreenContract.View {
 
     override fun showPullRequestsList(requestsList: MutableList<PullRequests>) {
         LOGD(TAG, requestsList.size.toString())
-        adapter.updateData(requestsList)
+        if(requestsList.isEmpty()) {
+            SnackbarUtils.showSnack(parentLayout, R.string.no_pull_requests)
+        } else {
+            adapter.updateData(requestsList)
+        }
     }
 
     override fun showErrorMessage(msg: Int) {
@@ -79,8 +86,9 @@ class HomeScreenFragment : Fragment(), HomeScreenContract.View {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 //        homeScreenPresenter?.getPullRequests(owner = ownerName, repo = repo)
-        parentLayout = activity?.findViewById(R.id.parent) as CoordinatorLayout
+        parentLayout = activity?.findViewById(R.id.coord_parent) as CoordinatorLayout
         progressBar = activity?.findViewById(R.id.progressBar) as AVLoadingIndicatorView
+        placeholder = activity?.findViewById(R.id.placeholder) as ConstraintLayout
     }
 
     companion object {
