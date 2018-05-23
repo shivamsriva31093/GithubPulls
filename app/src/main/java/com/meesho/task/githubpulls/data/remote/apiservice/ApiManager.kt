@@ -1,5 +1,6 @@
 package com.meesho.task.githubpulls.data.remote.apiservice
 
+import android.content.Context
 import com.meesho.task.githubpulls.API_BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -8,7 +9,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-open class ApiManager {
+open class ApiManager(val context: Context) {
 
     companion object {
         val TAG = ApiManager::class.java.simpleName
@@ -47,8 +48,11 @@ open class ApiManager {
 
     open fun configOkHttpClient(builder: OkHttpClient.Builder) {
         val httpLogger = HttpLoggingInterceptor()
-        httpLogger.level = HttpLoggingInterceptor.Level.BODY
+        httpLogger.level = HttpLoggingInterceptor.Level.BASIC
         builder.addInterceptor(httpLogger)
+
+        val customInterceptor = HttpCustomInterceptor(context)
+        builder.addInterceptor(customInterceptor)
     }
 
     fun getGithubService(): ApiService {

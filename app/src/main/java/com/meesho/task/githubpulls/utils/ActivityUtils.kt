@@ -33,6 +33,18 @@ class ActivityUtils {
             transaction.commit()
         }
 
+        fun removeFragmentFromActivity(
+                @NonNull fragmentManager: FragmentManager,
+                tag: String
+        ) {
+            val transaction = fragmentManager.beginTransaction()
+            val fragment = fragmentManager.findFragmentByTag(tag)
+            if(fragment != null) {
+                transaction.remove(fragment)
+                transaction.commit()
+            }
+        }
+
         fun replaceFragmentFromActivity(@NonNull fragmentManager: FragmentManager,
                                         @NonNull fragment: Fragment, containerId: Int) {
             checkNotNull(fragmentManager)
